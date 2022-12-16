@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.33103.201
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebAppMembershipProfileSourceGenerator", "WebAppMembershipProfileSourceGenerator\WebAppMembershipProfileSourceGenerator.csproj", "{307800E4-93CC-44BD-8D5D-BDF9D17F706A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebAppMembershipProfileSourceGenerator.Tests", "WebAppMembershipProfileSourceGenerator.Tests\WebAppMembershipProfileSourceGenerator.Tests.csproj", "{1B1748A6-86FD-4B3A-BE68-17D4B9F30E04}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{307800E4-93CC-44BD-8D5D-BDF9D17F706A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{307800E4-93CC-44BD-8D5D-BDF9D17F706A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{307800E4-93CC-44BD-8D5D-BDF9D17F706A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{307800E4-93CC-44BD-8D5D-BDF9D17F706A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1B1748A6-86FD-4B3A-BE68-17D4B9F30E04}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1B1748A6-86FD-4B3A-BE68-17D4B9F30E04}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1B1748A6-86FD-4B3A-BE68-17D4B9F30E04}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1B1748A6-86FD-4B3A-BE68-17D4B9F30E04}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {488D858B-E071-458F-A4A2-CF1983A0DD5C}
+	EndGlobalSection
+EndGlobal

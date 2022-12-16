@@ -1,0 +1,25 @@
+name: publish to nuget
+on:
+  push:
+    branches:
+      - master
+jobs:
+  publish:
+    name: build, pack & publish
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup dotnet
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: 7.0.x
+
+      - name: Build
+        run: dotnet build WebAppMembershipProfileSourceGenerator/WebAppMembershipProfileSourceGenerator.csproj -c Release
+
+      - name: Pack
+        run: dotnet pack WebAppMembershipProfileSourceGenerator/WebAppMembershipProfileSourceGenerator.csproj -c Release
+
+      - name: Publish NuGet Package
+        run: dotnet nuget push /home/runner/work/WebAppMembershipProfileSourceGenerator/WebAppMembershipProfileSourceGenerator/WebAppMembershipProfileSourceGenerator/bin/Release/*.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json --skip-duplicate
