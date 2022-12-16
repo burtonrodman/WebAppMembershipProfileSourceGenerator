@@ -1,4 +1,5 @@
 # Web App Membership Profile Generator
+A Source Generator to generate Membership Profile class and other helpers in an Asp.Net Visual Basic Web App
 
 # Troubleshooting
 
