@@ -35,7 +35,7 @@ public class ThePageSourceGenerator : GeneratorTestBase<PageSourceGenerator>
             """,
             new() {
                 {
-                    "Profile.g.vb",
+                    "Global.Profile.g.vb",
                     """
                     Partial Class Profile
                         Property Profile As ProfileCommon
@@ -58,7 +58,7 @@ public class ThePageSourceGenerator : GeneratorTestBase<PageSourceGenerator>
             """,
             new() {
                 {
-                    "Profile.g.vb",
+                    "Global.Profile.g.vb",
                     """
                     Partial Class Profile
                         Property Profile As ProfileCommon
@@ -83,7 +83,33 @@ public class ThePageSourceGenerator : GeneratorTestBase<PageSourceGenerator>
             """,
             new() {
                 {
-                    "Profile.g.vb",
+                    "Global.Profile.g.vb",
+                    """
+                    Partial Class Profile
+                        Property Profile As ProfileCommon
+                    End Class
+                    """
+                }
+            }
+        );
+    }
+
+    [Fact]
+    public void OnlyGeneratesOneNewClass()
+    {
+        RunTestWithDriver(
+            """
+            Imports System.Web.UI
+            Partial Class Profile
+                Inherits Page
+            End Class
+            Partial Class Profile
+                Inherits Page
+            End Class
+            """,
+            new() {
+                {
+                    "Global.Profile.g.vb",
                     """
                     Partial Class Profile
                         Property Profile As ProfileCommon

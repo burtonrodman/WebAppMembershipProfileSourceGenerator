@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.VisualBasic;
 
@@ -19,6 +20,7 @@ namespace burtonrodman.WebAppMembershipProfileSourceGenerator
 
             if (context.SyntaxReceiver is PartialClassSyntaxReceiver receiver)
             {
+                var generated = new Dictionary<string, string>();
                 foreach (var page in receiver.AllPartialClassBlocks)
                 {
                     try
@@ -26,14 +28,19 @@ namespace burtonrodman.WebAppMembershipProfileSourceGenerator
                         var model = context.Compilation.GetSemanticModel(page.SyntaxTree);
 
                         var symbol = model.GetDeclaredSymbol(page);
-                        if (symbol.BaseType?.ToString() == "System.Web.UI.Page")
-                        {
-                            context.AddSource($"{page.ClassStatement.Identifier.Text}.g.vb",
+                        var ns = symbol.ContainingNamespace.ToString();
+                        var className = page.ClassStatement.Identifier.Text;
+                        var fullClassName = $"{ns}.{className}";
+                        if (symbol.BaseType?.ToString() == "System.Web.UI.Page" &&
+                            !generated.ContainsKey(fullClassName)
+                        ) {
+                            context.AddSource($"{fullClassName}.g.vb",
                                 $"""
-                                Partial Class {page.ClassStatement.Identifier.Text}
+                                Partial Class {className}
                                     Property Profile As ProfileCommon
                                 End Class
                                 """);
+                            generated.Add(fullClassName, fullClassName);
                         }
                     }
                     catch (Exception ex)
