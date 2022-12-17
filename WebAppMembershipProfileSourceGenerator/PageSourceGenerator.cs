@@ -4,7 +4,7 @@ using Microsoft.CodeAnalysis.VisualBasic;
 
 namespace burtonrodman.WebAppMembershipProfileSourceGenerator
 {
-    [Generator]
+    [Generator(LanguageNames.VisualBasic)]
     public class PageSourceGenerator : ISourceGenerator
     {
         public void Initialize(GeneratorInitializationContext context)
