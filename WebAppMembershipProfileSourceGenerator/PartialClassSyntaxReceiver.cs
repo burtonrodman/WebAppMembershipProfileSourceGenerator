@@ -4,7 +4,7 @@ using Microsoft.CodeAnalysis.VisualBasic.Syntax;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace burtonrodman
+namespace burtonrodman.WebAppMembershipProfileSourceGenerator
 {
     public class PartialClassSyntaxReceiver : ISyntaxReceiver
     {
@@ -13,7 +13,8 @@ namespace burtonrodman
         public void OnVisitSyntaxNode(SyntaxNode syntaxNode)
         {
             if (syntaxNode is ClassBlockSyntax cbs &&
-                cbs.ClassStatement.Modifiers.Any(m => m.IsKind(SyntaxKind.PartialKeyword))
+                cbs.ClassStatement.Modifiers.Any(m => m.IsKind(SyntaxKind.PartialKeyword) &&
+                cbs.Inherits.Any())
             )
             {
                 AllPartialClassBlocks.Add(cbs);

@@ -35,7 +35,9 @@ public abstract class GeneratorTestBase<TGenerator>
         driver = driver.RunGeneratorsAndUpdateCompilation(inputCompilation, out var outputCompilation, out var diagnostics);
 
         // We can now assert things about the resulting compilation:
-        Assert.True(diagnostics.IsEmpty); // there were no diagnostics created by the generators
+        if (!diagnostics.IsEmpty) {
+            Assert.Fail(diagnostics.First().GetMessage());
+        }
 
         var outputDiagnostics = outputCompilation.GetDiagnostics();
         Assert.True(outputDiagnostics.IsEmpty); // verify the compilation with the added source has no diagnostics

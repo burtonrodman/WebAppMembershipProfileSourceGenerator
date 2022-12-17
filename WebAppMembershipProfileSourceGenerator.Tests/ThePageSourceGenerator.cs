@@ -70,6 +70,31 @@ public class ThePageSourceGenerator : GeneratorTestBase<PageSourceGenerator>
     }
 
     [Fact]
+    public void OnlyGeneratesForPartialClassesWithInheritsSyntax()
+    {
+        RunTestWithDriver(
+            """
+            Imports System.Web.UI
+            Partial Class Profile
+                Inherits Page
+            End Class
+            Partial Class Profile
+            End Class
+            """,
+            new() {
+                {
+                    "Profile.g.vb",
+                    """
+                    Partial Class Profile
+                        Property Profile As ProfileCommon
+                    End Class
+                    """
+                }
+            }
+        );
+    }
+
+    [Fact]
     public void IgnoresClassesThatDontInheritPage()
     {
         RunTestWithDriver(
