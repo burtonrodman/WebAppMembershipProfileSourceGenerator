@@ -4,7 +4,7 @@
 		<AssemblyName>burtonrodman.WebAppMembershipProfileSourceGenerator</AssemblyName>
 		<TargetFramework>netstandard2.0</TargetFramework>
 		<LangVersion>latest</LangVersion>
-		<Version>0.1.5</Version>
+		<Version>0.1.6</Version>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<Authors>Burton Rodman</Authors>
 		<PackageProjectUrl>https://github.com/burtonrodman/WebAppMembershipProfileSourceGenerator</PackageProjectUrl>
@@ -28,7 +28,7 @@
 
 	<ItemGroup>
 		<!-- pack to the analyzers folder -->
-		<None Include="$(OutputPath)\$(AssemblyName).dll" Pack="true" PackagePath="analyzers/dotnet/vb" Visible="false" />
+		<None Include="$(OutputPath)\$(AssemblyName).dll" Pack="true" PackagePath="analyzers" Visible="false" />
         <None Include="tools\install.ps1" Pack="true" PackagePath="tools" Visible="false" />
         <None Include="tools\uninstall.ps1" Pack="true" PackagePath="tools" Visible="false" />
 		<None Include="..\README.md" Pack="true" PackagePath="\" />
