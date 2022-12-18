@@ -42,6 +42,10 @@ namespace burtonrodman.WebAppMembershipProfileSourceGenerator
                             {
                                 context.AddSource($"{fullClassName}.g.vb",
                                     $"""
+                                    ' ns = {ns}
+                                    ' thisNs = {thisNs}
+                                    ' fullClassName = {fullClassName}
+                                    ' rootNamespace = {rootNamespace}
                                     Partial Class {className}
                                         Property Profile As ProfileCommon
                                     End Class
@@ -51,6 +55,10 @@ namespace burtonrodman.WebAppMembershipProfileSourceGenerator
                             {
                                 context.AddSource($"{fullClassName}.g.vb",
                                     $"""
+                                    ' ns = {ns}
+                                    ' thisNs = {thisNs}
+                                    ' fullClassName = {fullClassName}
+                                    ' rootNamespace = {rootNamespace}
                                     Namespace {thisNs}
                                         Partial Class {className}
                                             Property Profile As ProfileCommon
