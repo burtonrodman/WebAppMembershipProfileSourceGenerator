@@ -10,13 +10,13 @@ public class ThePageSourceGenerator : GeneratorTestBase<PageSourceGenerator>
         End Class
         """,
         """
-        Namespace System.Web.UI
+        Namespace Global.System.Web.UI
             Public Class Page
             End Class
         End Namespace
         """,
         """
-        Namespace NotSystemWebUI
+        Namespace Global.NotSystemWebUI
             Public Class Page
             End Class
         End Namespace
@@ -35,7 +35,7 @@ public class ThePageSourceGenerator : GeneratorTestBase<PageSourceGenerator>
             """,
             new() {
                 {
-                    "Global.Profile.g.vb",
+                    "UnitTest.Profile.g.vb",
                     """
                     Partial Class Profile
                         Property Profile As ProfileCommon
@@ -58,7 +58,7 @@ public class ThePageSourceGenerator : GeneratorTestBase<PageSourceGenerator>
             """,
             new() {
                 {
-                    "Global.Profile.g.vb",
+                    "UnitTest.Profile.g.vb",
                     """
                     Partial Class Profile
                         Property Profile As ProfileCommon
@@ -83,7 +83,7 @@ public class ThePageSourceGenerator : GeneratorTestBase<PageSourceGenerator>
             """,
             new() {
                 {
-                    "Global.Profile.g.vb",
+                    "UnitTest.Profile.g.vb",
                     """
                     Partial Class Profile
                         Property Profile As ProfileCommon
@@ -109,11 +109,49 @@ public class ThePageSourceGenerator : GeneratorTestBase<PageSourceGenerator>
             """,
             new() {
                 {
-                    "Global.Profile.g.vb",
+                    "UnitTest.Profile.g.vb",
                     """
                     Partial Class Profile
                         Property Profile As ProfileCommon
                     End Class
+                    """
+                }
+            }
+        );
+    }
+
+    [Fact]
+    public void IncludesNamespace()
+    {
+        RunTestWithDriver(
+            """
+            Imports System.Web.UI
+            Partial Class Profile
+                Inherits Page
+            End Class
+            Namespace Test
+                Partial Class Profile
+                    Inherits Page
+                End Class
+            End Namespace
+            """,
+            new() {
+                {
+                    "UnitTest.Profile.g.vb",
+                    """
+                    Partial Class Profile
+                        Property Profile As ProfileCommon
+                    End Class
+                    """
+                },
+                {
+                    "UnitTest.Test.Profile.g.vb",
+                    """
+                    Namespace Test
+                        Partial Class Profile
+                            Property Profile As ProfileCommon
+                        End Class
+                    End Namespace
                     """
                 }
             }

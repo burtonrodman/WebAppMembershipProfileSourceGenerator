@@ -1,6 +1,8 @@
 using System.Collections.Immutable;
+using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.Diagnostics;
 using Microsoft.CodeAnalysis.VisualBasic;
 
 namespace PageSourceGeneratorTests;
@@ -27,26 +29,28 @@ public abstract class GeneratorTestBase<TGenerator>
         ISourceGenerator generator = new TGenerator();
 
         // Create the driver that will control the generation, passing in our generator
-        GeneratorDriver driver = VisualBasicGeneratorDriver.Create(
-            ImmutableArray.Create(generator));
+        GeneratorDriver driver = VisualBasicGeneratorDriver.Create(ImmutableArray.Create(generator))
+            .WithUpdatedAnalyzerConfigOptions(new TestAnalyzerConfigOptionsProvider());
 
         // Run the generation pass
         // (Note: the generator driver itself is immutable, and all calls return an updated version of the driver that you should use for subsequent calls)
         driver = driver.RunGeneratorsAndUpdateCompilation(inputCompilation, out var outputCompilation, out var diagnostics);
 
         // We can now assert things about the resulting compilation:
-        if (!diagnostics.IsEmpty) {
+        if (!diagnostics.IsEmpty)
+        {
             Assert.Fail(diagnostics.First().GetMessage());
         }
 
         var outputDiagnostics = outputCompilation.GetDiagnostics();
-        Assert.True(outputDiagnostics.IsEmpty); // verify the compilation with the added source has no diagnostics
+        if (!outputDiagnostics.IsEmpty) {
+            Assert.Fail(outputDiagnostics.First().GetMessage());
+        }
 
         // Or we can look at the results directly:
         GeneratorDriverRunResult runResult = driver.GetRunResult();
 
         // The runResult contains the combined results of all generators passed to the driver
-        Assert.True(runResult.Diagnostics.IsEmpty);
 
         foreach (var tree in runResult.GeneratedTrees)
         {
@@ -72,5 +76,33 @@ public abstract class GeneratorTestBase<TGenerator>
         => VisualBasicCompilation.Create("compilation",
             sources.Select(source => VisualBasicSyntaxTree.ParseText(source)).ToArray(),
             new[] { MetadataReference.CreateFromFile(typeof(Binder).GetTypeInfo().Assembly.Location) },
-            new VisualBasicCompilationOptions(OutputKind.DynamicallyLinkedLibrary));
+            new VisualBasicCompilationOptions(OutputKind.DynamicallyLinkedLibrary, rootNamespace: "UnitTest"));
+}
+
+public class TestAnalyzerConfigOptionsProvider : AnalyzerConfigOptionsProvider
+{
+    private readonly TestAnalyzerConfigOptions _options = new();
+
+    public override AnalyzerConfigOptions GlobalOptions => _options;
+
+    public override AnalyzerConfigOptions GetOptions(SyntaxTree tree)
+      => throw new NotImplementedException();
+
+    public override AnalyzerConfigOptions GetOptions(AdditionalText textFile)
+      => throw new NotImplementedException();
+}
+
+public class TestAnalyzerConfigOptions : AnalyzerConfigOptions
+{
+    public override bool TryGetValue(string key, [NotNullWhen(true)] out string? value)
+    {
+        if (key == "build_property.RootNamespace")
+        {
+            value = "UnitTest";
+            return true;
+        }
+
+        value = null;
+        return false;
+    }
 }
