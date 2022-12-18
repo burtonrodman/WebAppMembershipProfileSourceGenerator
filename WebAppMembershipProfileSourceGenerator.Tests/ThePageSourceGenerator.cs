@@ -7,6 +7,9 @@ public class ThePageSourceGenerator : GeneratorTestBase<PageSourceGenerator>
     public ThePageSourceGenerator() : base(new List<string>() {
         """
         Public Class ProfileCommon
+            Public Shared Function GetCurrent() As ProfileCommon
+                Return Nothing
+            End Function
         End Class
         """,
         """
@@ -40,9 +43,9 @@ public class ThePageSourceGenerator : GeneratorTestBase<PageSourceGenerator>
             new() {
                 {
                     "UnitTest.Profile.g.vb",
-                    """
+                    $"""
                     Partial Class Profile
-                        Property Profile As ProfileCommon
+                        {PageSourceGenerator.ProfilePropertySource}
                     End Class
                     """
                 }
@@ -63,9 +66,9 @@ public class ThePageSourceGenerator : GeneratorTestBase<PageSourceGenerator>
             new() {
                 {
                     "UnitTest.Profile.g.vb",
-                    """
+                    $"""
                     Partial Class Profile
-                        Property Profile As ProfileCommon
+                        {PageSourceGenerator.ProfilePropertySource}
                     End Class
                     """
                 }
@@ -88,9 +91,9 @@ public class ThePageSourceGenerator : GeneratorTestBase<PageSourceGenerator>
             new() {
                 {
                     "UnitTest.Profile.g.vb",
-                    """
+                    $"""
                     Partial Class Profile
-                        Property Profile As ProfileCommon
+                        {PageSourceGenerator.ProfilePropertySource}
                     End Class
                     """
                 }
@@ -114,9 +117,9 @@ public class ThePageSourceGenerator : GeneratorTestBase<PageSourceGenerator>
             new() {
                 {
                     "UnitTest.Profile.g.vb",
-                    """
+                    $"""
                     Partial Class Profile
-                        Property Profile As ProfileCommon
+                        {PageSourceGenerator.ProfilePropertySource}
                     End Class
                     """
                 }
@@ -142,18 +145,18 @@ public class ThePageSourceGenerator : GeneratorTestBase<PageSourceGenerator>
             new() {
                 {
                     "UnitTest.Profile.g.vb",
-                    """
+                    $"""
                     Partial Class Profile
-                        Property Profile As ProfileCommon
+                        {PageSourceGenerator.ProfilePropertySource}
                     End Class
                     """
                 },
                 {
                     "UnitTest.Test.Profile.g.vb",
-                    """
+                    $"""
                     Namespace Test
                         Partial Class Profile
-                            Property Profile As ProfileCommon
+                        {PageSourceGenerator.ProfilePropertySource}
                         End Class
                     End Namespace
                     """
@@ -200,9 +203,9 @@ public class ThePageSourceGenerator : GeneratorTestBase<PageSourceGenerator>
             new() {
                 {
                     "UnitTest.Profile.g.vb",
-                    """
+                    $"""
                     Partial Class Profile
-                        Property Profile As ProfileCommon
+                        {PageSourceGenerator.ProfilePropertySource}
                     End Class
                     """
                 }
@@ -222,9 +225,9 @@ public class ThePageSourceGenerator : GeneratorTestBase<PageSourceGenerator>
             new() {
                 {
                     "UnitTest.Profile.g.vb",
-                    """
+                    $"""
                     Partial Class Profile
-                        Property Profile As ProfileCommon
+                        {PageSourceGenerator.ProfilePropertySource}
                     End Class
                     """
                 }

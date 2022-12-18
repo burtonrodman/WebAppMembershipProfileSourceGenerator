@@ -14,6 +14,15 @@ namespace burtonrodman.WebAppMembershipProfileSourceGenerator
             context.RegisterForSyntaxNotifications(() => new PartialClassSyntaxReceiver());
         }
 
+        public const string ProfilePropertySource =
+        """
+            Public ReadOnly Property Profile As ProfileCommon
+                Get
+                    Return ProfileCommon.GetCurrent()
+                End Get
+            End Property
+        """;
+
         public void Execute(GeneratorExecutionContext context)
         {
             // The SyntaxReceiver first get a chance to filter the nodes that we care about
@@ -44,7 +53,7 @@ namespace burtonrodman.WebAppMembershipProfileSourceGenerator
                                 context.AddSource($"{fullClassName}.g.vb",
                                     $"""
                                     Partial Class {className}
-                                        Property Profile As ProfileCommon
+                                        {ProfilePropertySource}
                                     End Class
                                     """);
                             }
@@ -54,7 +63,7 @@ namespace burtonrodman.WebAppMembershipProfileSourceGenerator
                                     $"""
                                     Namespace {thisNs}
                                         Partial Class {className}
-                                            Property Profile As ProfileCommon
+                                        {ProfilePropertySource}
                                         End Class
                                     End Namespace
                                     """);
