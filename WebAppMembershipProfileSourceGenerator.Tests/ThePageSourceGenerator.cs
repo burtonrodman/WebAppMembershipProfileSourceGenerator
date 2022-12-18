@@ -13,6 +13,10 @@ public class ThePageSourceGenerator : GeneratorTestBase<PageSourceGenerator>
         Namespace Global.System.Web.UI
             Public Class Page
             End Class
+            Public Class MasterPage
+            End Class
+            Public Class UserControl
+            End Class
         End Namespace
         """,
         """
@@ -181,6 +185,50 @@ public class ThePageSourceGenerator : GeneratorTestBase<PageSourceGenerator>
             End Class
             """,
             new() { }
+        );
+    }
+
+    [Fact]
+    public void FindsPartialClassThatInheritsSystemWebUIMasterPage()
+    {
+        RunTestWithDriver(
+            """
+            Partial Class Profile
+                Inherits System.Web.UI.MasterPage
+            End Class
+            """,
+            new() {
+                {
+                    "UnitTest.Profile.g.vb",
+                    """
+                    Partial Class Profile
+                        Property Profile As ProfileCommon
+                    End Class
+                    """
+                }
+            }
+        );
+    }
+
+    [Fact]
+    public void FindsPartialClassThatInheritsSystemWebUIUserControl()
+    {
+        RunTestWithDriver(
+            """
+            Partial Class Profile
+                Inherits System.Web.UI.UserControl
+            End Class
+            """,
+            new() {
+                {
+                    "UnitTest.Profile.g.vb",
+                    """
+                    Partial Class Profile
+                        Property Profile As ProfileCommon
+                    End Class
+                    """
+                }
+            }
         );
     }
 }

@@ -18,6 +18,7 @@ namespace burtonrodman.WebAppMembershipProfileSourceGenerator
         {
             // The SyntaxReceiver first get a chance to filter the nodes that we care about
             // now we need to loop over the collected nodes and generate the source files.
+            var hasProfileClasses = new[] { "System.Web.UI.Page", "System.Web.UI.MasterPage", "System.Web.UI.UserControl" };
 
             var rootNamespace = context.GetMSBuildProperty("RootNamespace");
             if (context.SyntaxReceiver is PartialClassSyntaxReceiver receiver)
@@ -34,7 +35,7 @@ namespace burtonrodman.WebAppMembershipProfileSourceGenerator
                         var thisNs = ns.GetNamespaceWithoutRoot(rootNamespace);
                         var className = page.ClassStatement.Identifier.Text;
                         var fullClassName = $"{ns}.{className}";
-                        if (symbol.BaseType?.ToString() == "System.Web.UI.Page" &&
+                        if (hasProfileClasses.Contains(symbol.BaseType?.ToString()) &&
                             !generated.ContainsKey(fullClassName)
                         )
                         {
@@ -42,10 +43,6 @@ namespace burtonrodman.WebAppMembershipProfileSourceGenerator
                             {
                                 context.AddSource($"{fullClassName}.g.vb",
                                     $"""
-                                    ' ns = {ns}
-                                    ' thisNs = {thisNs}
-                                    ' fullClassName = {fullClassName}
-                                    ' rootNamespace = {rootNamespace}
                                     Partial Class {className}
                                         Property Profile As ProfileCommon
                                     End Class
@@ -55,10 +52,6 @@ namespace burtonrodman.WebAppMembershipProfileSourceGenerator
                             {
                                 context.AddSource($"{fullClassName}.g.vb",
                                     $"""
-                                    ' ns = {ns}
-                                    ' thisNs = {thisNs}
-                                    ' fullClassName = {fullClassName}
-                                    ' rootNamespace = {rootNamespace}
                                     Namespace {thisNs}
                                         Partial Class {className}
                                             Property Profile As ProfileCommon
